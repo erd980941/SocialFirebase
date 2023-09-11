@@ -1,1 +1,11 @@
 /* You can add global styles to this file, and also import other style files */
+.bg-myCustom{
+    background-color: #193441;
+}
+.btn-primary{
+    background-color: #3E606F;
+    border: #3E606F;
+}
+a{
+    cursor: pointer;
+}

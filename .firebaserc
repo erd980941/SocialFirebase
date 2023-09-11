@@ -1,0 +1,14 @@
+{
+  "targets": {
+    "social-12f54": {
+      "hosting": {
+        "SocialFirebase": [
+          "social-12f54"
+        ]
+      }
+    }
+  },
+  "projects": {
+    "default": "social-12f54"
+  }
+}

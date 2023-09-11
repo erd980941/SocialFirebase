@@ -1,0 +1,20 @@
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-md-12 d-flex justify-content-center align-items-center vh-100">
+            <div class="col-md-4 bg-white text-center  rounded p-3">
+                <form #registerForm="ngForm">
+                    <h3 class="mb-3">Kayıt Ol</h3>
+                    <div class="mb-3">
+                        <input type="email" required email ngModel #email name="email" class="form-control" placeholder="Email..">
+                    </div>
+                    <div class="mb-3">
+                        <input type="password" required ngModel #password name="password" class="form-control" placeholder="Şifre..">
+                    </div>
+                    <div class="d-grid gap-2">
+                        <button [disabled]="!registerForm.valid" (click)="authService.signUp(email.value,password.value)" class="btn btn-primary" type="button">Kayıt Ol</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>

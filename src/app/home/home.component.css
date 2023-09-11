@@ -1,0 +1,11 @@
+.btn-primary{
+    background-color: #3E606F;
+    border: #3E606F;
+}
+.bg-white,.bg-textarea {
+    background-color: #ccdae0 !important;
+    
+}
+.bg-textarea{
+    border-color: #3E606F;
+}
