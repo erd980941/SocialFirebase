@@ -1,9 +1,11 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { LayoutsComponent } from './layouts.component';
-import { NavbarComponent } from './navbar/navbar.component';
-import { FooterComponent } from './footer/footer.component';
-import { RouterModule, Routes } from '@angular/router';
+import { Routes, RouterModule } from '@angular/router';
+import { FooterComponent } from 'src/app/components/layouts/footer/footer.component';
+import { NavbarComponent } from 'src/app/components/layouts/navbar/navbar.component';
+
+
 
 const routes:Routes=[
   {path:'',component:LayoutsComponent}

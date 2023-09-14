@@ -1,0 +1,38 @@
+<div class="container mt-5">
+    <div class="row">
+        <div class="col-12">
+            <div class="bg-white rounded p-3">
+                <form #postForm="ngForm">
+                    <div class="form-floating">
+                        <textarea class="form-control bg-textarea" required minlength="10" maxlength="500" name="content" #content ngModel
+                            placeholder="Gönderinizi Buraya Yazınız.." id="floatingTextarea2" style="height: 100px">
+                        </textarea>
+                        <label for="floatingTextarea2">Paylaş</label>
+                        <div class="d-grid gap-2 mt-2">
+                            <button [disabled]="!postForm.valid" (click)="postService.addPost(content.value)" class="btn btn-primary" type="button">Paylaş</button>
+                        </div>
+                    </div>
+                </form>
+                <hr>
+                <div *ngFor="let post of posts" class="row mb-3">
+                    <div class="col-md-2">
+                        <div  class="card bg-white rounded">
+                            <img src="../../assets/img/not-found.jpg" class="card-img-top" alt="...">
+                            <div class="card-body">
+                                <p class="card-text">
+                                    lorem
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-10">
+                        <p>
+                            {{post.content}}
+                        </p>
+                    </div>
+                </div>
+                
+            </div>
+        </div>
+    </div>
+</div>

@@ -1,9 +1,9 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
-import { LayoutsComponent } from './layouts/layouts.component';
-import { HomeComponent } from './home/home.component';
-import { authGuard } from './guard/auth.guard';
-import { ProfileComponent } from './profile/profile.component';
+import { LayoutsComponent } from './components/layouts/layouts.component';
+import { HomeComponent } from './components/home/home.component';
+import { authGuard } from './shared/guard/auth.guard';
+import { ProfileComponent } from './components/profile/profile.component';
 
 const routes: Routes = [
   {
@@ -11,14 +11,14 @@ const routes: Routes = [
     component:LayoutsComponent,
     canActivate:[authGuard],
     children:[
-      {path:'',component:HomeComponent,loadChildren:()=>import('./home/home.module').then(m=>m.HomeModule)},
-      {path:'home',component:HomeComponent,loadChildren:()=>import('./home/home.module').then(m=>m.HomeModule)},
-      {path:'profile',component:ProfileComponent,loadChildren:()=>import('./profile/profile.module').then(m=>m.ProfileModule)}
+      {path:'',component:HomeComponent,loadChildren:()=>import('./components/home/home.module').then(m=>m.HomeModule)},
+      {path:'home',component:HomeComponent,loadChildren:()=>import('./components/home/home.module').then(m=>m.HomeModule)},
+      {path:'profile',component:ProfileComponent,loadChildren:()=>import('./components/profile/profile.module').then(m=>m.ProfileModule)}
     ]
   },
   {
     path:'login',
-    loadChildren:()=>import('./auth/auth.module').then(m=>m.AuthModule)
+    loadChildren:()=>import('./components/auth/auth.module').then(m=>m.AuthModule)
   }
 ];
 
