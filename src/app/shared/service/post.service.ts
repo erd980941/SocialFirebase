@@ -1,6 +1,6 @@
 import { Injectable, NgZone } from '@angular/core';
 import { AngularFirestore, AngularFirestoreDocument } from '@angular/fire/compat/firestore';
-import { forkJoin, Observable } from 'rxjs';
+import { combineLatest, forkJoin, Observable } from 'rxjs';
 import { map, switchMap } from 'rxjs/operators';
 import { PostModel } from '../model/post.model';
 import { User } from '../model/user.model';
@@ -56,25 +56,13 @@ export class PostService {
   //    )
   //  }
 
-   getPosts1(): Observable<PostUserModel[]> {
-    return this.afs.collection<PostModel>('posts').snapshotChanges().pipe(
-      map(actions => {
-        return actions.map(action => {
-          const data = action.payload.doc.data() as PostModel;
-          const id = action.payload.doc.id;
-          console.log(data);
-          return { id, ...data };
-        });
-      }),
-      switchMap(posts => {
-        const observables = posts.map(post => {
-          return this.afs.doc(`users/${post.userId}`).valueChanges().pipe(
-            map(user => ({ ...post, user } as PostUserModel))
-          );
-        });
-        return forkJoin(observables);
+  getPostsByUserId():Observable<PostModel[]>{
+    return this.afauth.authState.pipe(
+      switchMap((user:any)=>{
+        if(user) return this.afs.collection<PostModel>('posts',(ref)=>ref.where('userId','==',user.uid)).valueChanges();
+        else return []
       })
-    );
+    )
   }
 
   getPosts(): Observable<PostUserModel[]> {
@@ -82,22 +70,20 @@ export class PostService {
       switchMap(actions => {
         const observables = actions.map(action => {
           const data = action.payload.doc.data() as PostModel;
-
-          return this.afs.doc<User>(`users/${data.userId}`).valueChanges().pipe(
+          
+          const postUser= this.afs.doc<User>(`users/${data.userId}`).valueChanges().pipe(
             map(user => ({ ...data, user } as PostUserModel))
             
-          );
+            );
+            return postUser;
         });
-        
-        return forkJoin(observables);
+        return combineLatest(observables);
       })
     );
     
     
   }
 
-  getUser():Observable<User[]>{
-    return this.afs.collection<User>('users').valueChanges();
-  }
+  
   
 }

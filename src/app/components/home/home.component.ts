@@ -16,12 +16,13 @@ export class HomeComponent implements OnInit {
     
   }
   ngOnInit(): void {
-    this.postService.getPosts().subscribe(res=>console.log(res));
+    this.getPosts();
   }
 
   getPosts(){
     this.postService.getPosts().subscribe((res:any)=>{
       console.log(res);
+      this.posts=res;
     },(err)=>{
       console.log(err);
     })

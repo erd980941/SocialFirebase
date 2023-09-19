@@ -1,4 +1,4 @@
-<div class="container mt-5">
+sedanur aydınemirh<div class="container mt-5">
     <div class="row">
         <div class="col-md-3">
             <div *ngIf="user" class="card bg-white rounded">
@@ -13,23 +13,91 @@
             </div>
             <div class="bg-white rounded mt-3">
                 <ul class="list-group bg-white">
-                    <li class="list-group-item">Bilgileri Güncelle</li>
-                    <li class="list-group-item">Profil Fotoğrafı Değiştir</li>
-                    <li class="list-group-item">Şifre Değiştir</li>
+                    <li class="list-group-item" style="cursor: pointer;" data-bs-toggle="modal"
+                        data-bs-target="#updateMyInformation">Bilgileri Güncelle</li>
+                    <li class="list-group-item" style="cursor: pointer;" data-bs-toggle="modal"
+                        data-bs-target="#updateMyPhoto">Profil Fotoğrafı Değiştir</li>
+                    <li class="list-group-item" style="cursor: pointer;" data-bs-toggle="modal"
+                        data-bs-target="#changePassword">Şifre Değiştir</li>
                 </ul>
             </div>
         </div>
         <div class="col-md-9">
             <div class="bg-white rounded p-3">
-                <div class="mb-3">
-                    asd
+                <div *ngFor="let item of posts" class="mb-3">
+                    {{item.content}}
                 </div>
-                <div class="mb-3">
-                    asd
-                </div>
-                <div class="mb-3">
-                    asd
-                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="updateMyInformation" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
+    aria-labelledby="staticBackdropLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h1 class="modal-title fs-5" id="staticBackdropLabel">Bilgileri Güncelle</h1>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <form [formGroup]="updateInformationFrm" (ngSubmit)="updateInformation()">
+                    <div class="mb-3">
+                        <label class="form-label">Kullanıcı Adı</label>
+                        <input type="text" class="form-control" formControlName="username">
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label">Ad</label>
+                        <input type="text" class="form-control" formControlName="firstName">
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label">Soyad</label>
+                        <input type="text" class="form-control" formControlName="lastName">
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Kapat</button>
+                        <button type="submit"  class="btn btn-primary">Güncelle</button>
+                    </div>
+                </form>
+            </div>
+            
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="updateMyPhoto" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
+    aria-labelledby="staticBackdropLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h1 class="modal-title fs-5" id="staticBackdropLabel">Profil Fotoğrafı Değiştir</h1>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                2
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Kapat</button>
+                <button type="button" class="btn btn-primary">Güncelle</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="changePassword" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
+    aria-labelledby="staticBackdropLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h1 class="modal-title fs-5" id="staticBackdropLabel">Şifre Değiştir</h1>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                3
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Kapat</button>
+                <button type="button" class="btn btn-primary">Güncelle</button>
             </div>
         </div>
     </div>

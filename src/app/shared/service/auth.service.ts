@@ -36,7 +36,7 @@ export class AuthService {
   }
   signIn(email:string,password:string){
     return this.afAuth.signInWithEmailAndPassword(email,password).then((result)=>{
-      this.SetUserData(result.user);
+      //this.SetUserData(result.user);
       this.afAuth.authState.subscribe((user)=>{
         if(user) this.router.navigate(['/']);
       })
@@ -55,9 +55,11 @@ export class AuthService {
     const userData:User={
       uid:user.uid,
       email:user.email,
-      displayName:user.displayName,
+      username:user.displayName,
       photoURL:user.photoURL,
-      emailVerified:user.emailVerified
+      emailVerified:user.emailVerified,
+      firstName:null,
+      lastName:null
     };
     return userRef.set(userData,{merge:true});
   }
@@ -71,5 +73,12 @@ export class AuthService {
     });
     
     return !!user && userUid!==user.uid ? true : false;
+  }
+  getUser(userId: string) {
+    return this.afs.collection('users').doc(userId).valueChanges();
+  }
+
+  updateInformation(userId:string,userData:any){
+    return this.afs.collection('users').doc(userId).update(userData);
   }
 }
