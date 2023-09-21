@@ -1,0 +1,17 @@
+<div class="container mt-5">
+    <div class="row">
+        <div *ngFor="let user of users" class="col-3">
+            <div  class="card bg-white rounded">
+                <img style="height: 250px" [src]="user.photoUrl?user.photoUrl:'./assets/img/not-found.jpg'" class="card-img-top" alt="...">
+                <div class="card-body">
+                    <p class="card-text text-center">
+                        {{user.firstName+" "+user.lastName}}
+                    </p>
+                    <div class="d-grid gap-2 mt-2">
+                        <button class="btn btn-primary" type="button">Mesaj Gönder</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

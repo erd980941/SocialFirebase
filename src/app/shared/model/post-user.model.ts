@@ -1,8 +1,8 @@
-import { User } from "./user.model";
+import { UserModel } from "./user.model";
 
 export interface PostUserModel{
     id:string;
     userId:string;
     content:string;
-    user:User;
+    user:UserModel;
 }

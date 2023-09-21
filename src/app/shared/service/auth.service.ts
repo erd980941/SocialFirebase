@@ -2,7 +2,10 @@ import { Injectable, NgZone } from '@angular/core';
 import { AngularFireAuth } from '@angular/fire/compat/auth';
 import { AngularFirestore, AngularFirestoreDocument } from '@angular/fire/compat/firestore';
 import { Router } from '@angular/router';
-import { User } from '../model/user.model';
+import { UserModel } from '../model/user.model';
+import { AngularFireStorage } from '@angular/fire/compat/storage';
+import { Observable, filter, from, switchMap } from 'rxjs';
+import { getAuth } from '@angular/fire/auth';
 
 @Injectable({
   providedIn: 'root'
@@ -14,6 +17,7 @@ export class AuthService {
   constructor(
     public afs: AngularFirestore, 
     public afAuth: AngularFireAuth, 
+    public afStorage:AngularFireStorage,
     public router: Router,
     public ngZone: NgZone 
   ) {
@@ -52,7 +56,7 @@ export class AuthService {
   }
   SetUserData(user:any){
     const userRef:AngularFirestoreDocument<any>=this.afs.doc(`users/${user.uid}`);
-    const userData:User={
+    const userData:UserModel={
       uid:user.uid,
       email:user.email,
       username:user.displayName,
@@ -68,7 +72,7 @@ export class AuthService {
     const user=JSON.parse(localStorage.getItem('user')!);
     let userUid:string="";
     this.afAuth.user.subscribe((res)=>{
-        userUid=res.uid;
+        if(res) userUid=res.uid;
         
     });
     
@@ -78,7 +82,47 @@ export class AuthService {
     return this.afs.collection('users').doc(userId).valueChanges();
   }
 
+  getUsers(){
+    return this.afs.collection('users').valueChanges();
+  }
+
   updateInformation(userId:string,userData:any){
     return this.afs.collection('users').doc(userId).update(userData);
   }
+
+  updatePhoto(file:File,userId:string){
+    const fileName=userId+"-profilePhoto";
+    const newFile=new File([file],fileName,{type:file.type});
+
+
+    const storageRef = this.afStorage.ref(`users/${userId}/${fileName}`);
+    storageRef.put(newFile).then((snapshot)=>{
+      snapshot.ref.getDownloadURL().then((downloadUrl)=>{
+        this.afs.collection('users').doc(userId).update({photoUrl:downloadUrl}).then(()=>{
+          console.log("Kullanıcının Fotoğrafı Başarıyla Güncellendi.")
+        }).catch(()=>{console.log("Firestore güncelleme hatası")})
+      })
+    })
+    
+  }
+
+   changePassword(newPassword: string) {
+     this.afAuth.currentUser.then((user)=>{
+       user.updatePassword(newPassword).then(()=>console.log("Şifre Değiştirildi")).catch(err=>console.log("şifre değiştirilirken hata oluştu")+err);
+     },(err)=>{
+       console.log("kullanıcı girişi yapılmadı"+err)
+     })
+
+   }
+
+  
+
+  // changePassword(newPassword: string): Observable<any> {
+  //   return this.afAuth.user.pipe(
+  //     switchMap((user:any)=>{
+  //       return user.updatePassword(newPassword)
+  //     })
+  //   );
+
+  // }
 }

@@ -1,11 +1,11 @@
-sedanur aydınemirh<div class="container mt-5">
+<div class="container mt-5">
     <div class="row">
         <div class="col-md-3">
             <div *ngIf="user" class="card bg-white rounded">
-                <img src="../../assets/img/not-found.jpg" class="card-img-top" alt="...">
+                <img [src]="user.photoUrl?user.photoUrl:'./assets/img/not-found.jpg'" class="card-img-top" alt="...">
                 <div class="card-body">
                     <p class="card-text">
-                        {{user.displayName}}<br>
+                        {{user.firstName+" "+user.lastName}}<br>
                         {{user.email}}<br>
 
                     </p>
@@ -14,11 +14,11 @@ sedanur aydınemirh<div class="container mt-5">
             <div class="bg-white rounded mt-3">
                 <ul class="list-group bg-white">
                     <li class="list-group-item" style="cursor: pointer;" data-bs-toggle="modal"
-                        data-bs-target="#updateMyInformation">Bilgileri Güncelle</li>
+                        data-bs-target="#updateMyInformation" (click)="getUser()">Bilgileri Güncelle</li>
                     <li class="list-group-item" style="cursor: pointer;" data-bs-toggle="modal"
                         data-bs-target="#updateMyPhoto">Profil Fotoğrafı Değiştir</li>
                     <li class="list-group-item" style="cursor: pointer;" data-bs-toggle="modal"
-                        data-bs-target="#changePassword">Şifre Değiştir</li>
+                        data-bs-target="#changePassword" (click)="getUser()">Şifre Değiştir</li>
                 </ul>
             </div>
         </div>
@@ -32,8 +32,8 @@ sedanur aydınemirh<div class="container mt-5">
     </div>
 </div>
 
-<div class="modal fade" id="updateMyInformation" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
-    aria-labelledby="staticBackdropLabel" aria-hidden="true">
+<div *ngIf="user" class="modal fade" id="updateMyInformation" data-bs-backdrop="static" data-bs-keyboard="false"
+    tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header">
@@ -41,26 +41,26 @@ sedanur aydınemirh<div class="container mt-5">
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body">
-                <form [formGroup]="updateInformationFrm" (ngSubmit)="updateInformation()">
+                <form #updateInformationForm="ngForm" (ngSubmit)="updateInformation()">
                     <div class="mb-3">
                         <label class="form-label">Kullanıcı Adı</label>
-                        <input type="text" class="form-control" formControlName="username">
+                        <input type="text" class="form-control" name="username" [(ngModel)]="user.username" required>
                     </div>
                     <div class="mb-3">
                         <label class="form-label">Ad</label>
-                        <input type="text" class="form-control" formControlName="firstName">
+                        <input type="text" class="form-control" name="firstName" [(ngModel)]="user.firstName" required>
                     </div>
                     <div class="mb-3">
                         <label class="form-label">Soyad</label>
-                        <input type="text" class="form-control" formControlName="lastName">
+                        <input type="text" class="form-control" name="lastName" [(ngModel)]="user.lastName" required>
                     </div>
                     <div class="modal-footer">
                         <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Kapat</button>
-                        <button type="submit"  class="btn btn-primary">Güncelle</button>
+                        <button type="submit" [disabled]="updateInformationForm.invalid"
+                            class="btn btn-primary">Güncelle</button>
                     </div>
                 </form>
             </div>
-            
         </div>
     </div>
 </div>
@@ -74,12 +74,19 @@ sedanur aydınemirh<div class="container mt-5">
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body">
-                2
+                <form #updatePhotoFrm="ngForm" (ngSubmit)="updatePhoto(photoUrl.files[0])">
+                    <div class="mb-3">
+                        <input type="file" class="form-control" name="photoUrl" ngModel #photoUrl required>
+                    </div>
+
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Kapat</button>
+                        <button type="submit" [disabled]="!updatePhotoFrm.valid"
+                            class="btn btn-primary">Güncelle</button>
+                    </div>
+                </form>
             </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Kapat</button>
-                <button type="button" class="btn btn-primary">Güncelle</button>
-            </div>
+
         </div>
     </div>
 </div>
@@ -93,12 +100,25 @@ sedanur aydınemirh<div class="container mt-5">
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body">
-                3
+                <form [formGroup]="changePasswordForm" (ngSubmit)="changePassword(changePasswordForm.value)">
+
+                    <div class="mb-3">
+                        <label class="form-label">Yeni Şifre</label>
+                        <input type="password" class="form-control" formControlName="newPassword">
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label">Yeni Şifre Tekrar</label>
+                        <input type="password" class="form-control" formControlName="confirmPassword">
+                    </div>
+
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Kapat</button>
+                        <button type="submit" [disabled]="changePasswordForm.invalid"
+                            class="btn btn-primary">Güncelle</button>
+                    </div>
+                </form>
             </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Kapat</button>
-                <button type="button" class="btn btn-primary">Güncelle</button>
-            </div>
+
         </div>
     </div>
 </div>

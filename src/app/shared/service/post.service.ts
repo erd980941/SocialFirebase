@@ -3,7 +3,7 @@ import { AngularFirestore, AngularFirestoreDocument } from '@angular/fire/compat
 import { combineLatest, forkJoin, Observable } from 'rxjs';
 import { map, switchMap } from 'rxjs/operators';
 import { PostModel } from '../model/post.model';
-import { User } from '../model/user.model';
+import { UserModel } from '../model/user.model';
 import { PostUserModel } from '../model/post-user.model';
 import { AngularFireAuth } from '@angular/fire/compat/auth';
 
@@ -71,7 +71,7 @@ export class PostService {
         const observables = actions.map(action => {
           const data = action.payload.doc.data() as PostModel;
           
-          const postUser= this.afs.doc<User>(`users/${data.userId}`).valueChanges().pipe(
+          const postUser= this.afs.doc<UserModel>(`users/${data.userId}`).valueChanges().pipe(
             map(user => ({ ...data, user } as PostUserModel))
             
             );
