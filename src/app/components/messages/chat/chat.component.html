@@ -1,0 +1,57 @@
+<div *ngIf="selectedUser">
+    <div class="py-2 px-4 border-bottom d-none d-lg-block">
+        <div class="d-flex align-items-center py-1">
+            <div class="position-relative">
+                <img [src]="selectedUser.photoUrl?selectedUser.photoUrl:'./assets/img/not-found.jpg'" class="rounded-circle mr-1" alt="Sharon Lessman" width="40" height="40">
+            </div>
+            <div class=" ps-3">
+                {{selectedUser.firstName+" "+selectedUser.lastName}}
+            </div>
+            <!-- https://bootdey.com/img/Content/avatar/avatar3.png -->
+        </div>
+    </div>
+    
+    <div class="position-relative">
+        <div class="chat-messages p-4">
+
+            <div *ngFor="let message of messages">
+
+                <div *ngIf="message.senderId === currentUser.uid" class="chat-message-right pb-4">
+                    <div>
+                        <img [src]="currentUser.photoUrl?currentUser.photoUrl:'./assets/img/not-found.jpg'" class="rounded-circle mr-1" alt="Chris Wood" width="40" height="40">
+                        <div class="text-muted small text-nowrap mt-2">2:33 am</div>
+                    </div>
+                    <div class="flex-shrink-1 bg-light rounded py-2 px-3 me-3">
+                        <div class="font-weight-bold mb-1">You</div>
+                        {{message.content}}
+                    </div>
+                </div>
+                <!-- https://bootdey.com/img/Content/avatar/avatar1.png -->
+
+                <div *ngIf="message.senderId !== currentUser.uid" class="chat-message-left pb-4">
+                    <div>
+                        <img [src]="selectedUser.photoUrl?selectedUser.photoUrl:'./assets/img/not-found.jpg'" class="rounded-circle mr-1" alt="Sharon Lessman" width="40" height="40">
+                        <div class="text-muted small text-nowrap mt-2">2:34 am</div>
+                    </div>
+                    <div class="flex-shrink-1 bg-light rounded py-2 px-3 ms-3">
+                        <div class="font-weight-bold mb-1">Sharon Lessman</div>
+                        {{message.content}}
+                    </div>
+                </div>
+                <!-- https://bootdey.com/img/Content/avatar/avatar3.png -->
+            </div>
+            
+            
+    
+           
+    
+        </div>
+    </div>
+    
+    <div class="flex-grow-0 py-3 px-4 border-top">
+        <div class="input-group">
+          <input type="text" class="form-control" placeholder="Mesajınızı yazın" [(ngModel)]="newMessageContent">
+          <button class="btn btn-primary" (click)="sendMessage()">Gönder</button>
+        </div>
+      </div>
+</div>

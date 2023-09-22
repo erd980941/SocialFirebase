@@ -1,0 +1,31 @@
+<main class="content mt-5">
+    <div class="container p-0">
+
+
+		<div class="card bg-white">
+			<div class="row g-0">
+				<div class="col-12 p-3 col-lg-5 col-xl-3 border-right">
+
+
+
+					<a *ngFor="let user of users"  class="list-group-item list-group-item-action border-0 mb-3" (click)="startChat(user)">
+						<div class="d-flex align-items-center">
+							<img [src]="user.photoUrl?user.photoUrl:'./assets/img/not-found.jpg'" class="rounded-circle mr-1" alt="Christina Mason" width="40" height="40">
+							<div class="ms-3">
+								{{user.firstName+" "+user.lastName}}
+							</div>
+						</div>
+					</a>
+                    <!-- https://bootdey.com/img/Content/avatar/avatar4.png -->
+				</div>
+                <!-- start chat -->
+				<div class="col-12 col-lg-7 col-xl-9">
+                    
+                    <app-chat [selectedUser]="selectedUser"></app-chat>
+
+				</div>
+                <!-- finish chat -->
+			</div>
+		</div>
+	</div>
+</main>

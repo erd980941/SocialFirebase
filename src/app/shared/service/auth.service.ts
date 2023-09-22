@@ -82,6 +82,10 @@ export class AuthService {
     return this.afs.collection('users').doc(userId).valueChanges();
   }
 
+  getCurrentUser(){
+    return this.afAuth.authState
+  }
+
   getUsers(){
     return this.afs.collection('users').valueChanges();
   }
