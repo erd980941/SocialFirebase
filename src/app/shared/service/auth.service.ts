@@ -78,9 +78,20 @@ export class AuthService {
     
     return !!user && userUid!==user.uid ? true : false;
   }
+
+  getUsersWithoutCurrent(currentUserId:string) {
+     
+        return this.afs.collection('users', ref =>
+        ref.where('uid', '!=', currentUserId) // Giriş yapmış kullanıcının UID'si dışındakileri al
+      ).valueChanges();
+    
+    
+  }
+
   getUser(userId: string) {
     return this.afs.collection('users').doc(userId).valueChanges();
   }
+  
 
   getCurrentUser(){
     return this.afAuth.authState

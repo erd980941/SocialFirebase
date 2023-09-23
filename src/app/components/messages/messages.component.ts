@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { AngularFireAuth } from '@angular/fire/compat/auth';
 import { UserModel } from 'src/app/shared/model/user.model';
 import { AuthService } from 'src/app/shared/service/auth.service';
 
@@ -10,16 +11,20 @@ import { AuthService } from 'src/app/shared/service/auth.service';
 export class MessagesComponent implements OnInit {
   users:UserModel[];
   selectedUser:UserModel;
+  currentUserId:string="";
 
-  constructor(private authService:AuthService){}
+  constructor(private authService:AuthService,private afAuth:AngularFireAuth){}
 
   ngOnInit(): void {
     this.getUsers();
   }
 
   getUsers(){
-    this.authService.getUsers().subscribe((res:any)=>{
-      this.users=res;
+    this.afAuth.currentUser.then((res)=>{
+      if(!res)return;
+      this.authService.getUsersWithoutCurrent(res.uid).subscribe((res:any)=>{
+        this.users=res;
+    })
     })
   }
 

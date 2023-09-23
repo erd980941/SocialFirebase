@@ -29,12 +29,11 @@ export class ChatComponent implements OnInit,OnChanges {
     }
   }
   ngOnInit(): void {
-    this.afAuth.user.subscribe((res:any) => {
+    this.afAuth.currentUser.then((res:any) => {
       if(!res) return;
       this.authService.getUser(res.uid).subscribe((res:any)=>{
         if(res){
           this.currentUser=res;
-          this.getMessages();
         }
       })
     });
@@ -53,9 +52,9 @@ export class ChatComponent implements OnInit,OnChanges {
   
 
   sendMessage() {
-
+    console.log("mesaj ekleme tetiklendi component")
     if (this.newMessageContent.trim() === '') return;
-
+console.log();
     this.authService.getCurrentUser().subscribe((user) => {
       if (user) {
         const message: MessageModel = {
@@ -65,7 +64,7 @@ export class ChatComponent implements OnInit,OnChanges {
           timestamp: new Date()
         };
 
-        this.messageService.sendMessage(message).then(() => {
+        this.messageService.sendMessageFirestore(message).then(() => {
           this.newMessageContent = ''; // Mesaj alanını temizle
         });
       }
